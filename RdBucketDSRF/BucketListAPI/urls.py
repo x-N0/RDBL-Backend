@@ -6,6 +6,6 @@ from .views import *
 
 urlpatterns = {
     url(r'^bucketlists/$', BucketListCreationView.as_view(), name='Create Bucket'),
-    url(r'^bucketlists/(?P<pk>[0-9]+)/$', BucketListGenView.as_view(), name='Bucket Mod')
+    url(r'^bucketlists/(?P<pk>\d+)/$', BucketListGenView.as_view(), name='Bucket Mod')
 }
 urlpatterns = format_suffix_patterns(urlpatterns)
