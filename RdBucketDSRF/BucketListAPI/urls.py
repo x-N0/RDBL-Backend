@@ -8,8 +8,11 @@ from .views import *
 urlpatterns = [
                   url(r'^bucketlists/$', BucketListCreationView.as_view(), name='Create Bucket'),
                   url(r'^bucketlists/(?P<pk>\d+)/$', BucketListGenView.as_view(), name='Bucket Mod'),
-                  url(r'^auth/', include('rest_framework.urls',  # ADD THIS URL
-                                         namespace='rest_framework')),
+                  url(r'^bucketlists/(?P<pk>\d+)/comments/$', CommentCreationView.as_view(),
+                      name='Create Comment'),
+                  url(r'^bucketlists/(?P<pk>\d+)/comments/(?P<id>\d+)/$', CommentGenView.as_view(),
+                      name='Comment Mod'),
+                  url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

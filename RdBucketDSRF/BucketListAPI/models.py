@@ -1,13 +1,20 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.defaultfilters import filesizeformat
 from django.utils.deconstruct import deconstructible
 import magic.magic as magic
+from django_comments.models import CommentAbstractModel
+from django.contrib.contenttypes.models import ContentType
+
+
 # Create your models here.
 
 
 class BucketList(models.Model):
     name = models.CharField(max_length=255, blank=False, unique=True)
+    description= models.CharField(max_length=3000, blank=True, unique=True)
     owner = models.ForeignKey('auth.User', related_name='bucketlists', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -70,3 +77,16 @@ class FileValidator(object):
 
 """class PhotoBucketList(models.Model):
     Bucket = models.OneToOneField(BucketList, on_delete=models.CASCADE)"""
+
+
+class CustomComment(CommentAbstractModel):
+    bucket= models.ForeignKey(BucketList, related_name='customcomments', verbose_name='Bucket',
+                              on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType,
+                                     verbose_name='content type',
+                                     related_name="content_type_set_for_%(class)s",
+                                     on_delete=models.CASCADE, default=BucketList)
+    object_pk = models.PositiveIntegerField('object ID', default=bucket)
+    content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, default=1)
+    submit_date = models.DateTimeField('date/time submitted', db_index=True, auto_now=True, editable=False)
