@@ -11,7 +11,7 @@ lazy-object-proxy==1.4.2
 libmagic==1.0
 Markdown==3.1.1
 mccabe==0.6.1
-Pillow==6.2.1
+Pillow==8.1.1
 psycopg2==2.8.4
 pylint==2.4.2
 python-magic-bin==0.4.14
